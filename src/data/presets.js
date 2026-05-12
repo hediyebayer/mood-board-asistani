@@ -9,55 +9,49 @@ export const STYLES = {
   minimal: {
     label: "Minimal",
     params: { scheme: "mono", hue: [0, 360], sat: [6, 22], light: [18, 38] },
-    fonts: [
-      { heading: "Inter", body: "Inter" },
-      { heading: "Montserrat", body: "Open Sans" },
-      { heading: "Space Grotesk", body: "Inter" },
-    ],
+    fontPool: {
+      headings: ["Inter", "Montserrat", "Space Grotesk", "Open Sans"],
+      bodies: ["Inter", "Open Sans", "Space Grotesk", "Lora"],
+    },
   },
   retro: {
     label: "Retro",
     params: { scheme: "analogous", hue: [5, 55], sat: [50, 82], light: [38, 58] },
-    fonts: [
-      { heading: "Abril Fatface", body: "Lora" },
-      { heading: "Playfair Display", body: "Lora" },
-      { heading: "Fredoka", body: "Lora" },
-    ],
+    fontPool: {
+      headings: ["Abril Fatface", "Playfair Display", "Fredoka", "Cormorant Garamond"],
+      bodies: ["Lora", "Open Sans", "Quicksand", "Inter"],
+    },
   },
   luxury: {
     label: "Luxury",
     params: { scheme: "luxury", hue: [0, 360], sat: [20, 55], light: [7, 18] },
-    fonts: [
-      { heading: "Playfair Display", body: "Cormorant Garamond" },
-      { heading: "Cormorant Garamond", body: "Lora" },
-      { heading: "Playfair Display", body: "Lora" },
-    ],
+    fontPool: {
+      headings: ["Playfair Display", "Cormorant Garamond", "Abril Fatface", "Montserrat"],
+      bodies: ["Cormorant Garamond", "Lora", "Open Sans", "Inter"],
+    },
   },
   neon: {
     label: "Neon",
     params: { scheme: "triadic", hue: [0, 360], sat: [85, 100], light: [50, 62] },
-    fonts: [
-      { heading: "Orbitron", body: "Space Grotesk" },
-      { heading: "Orbitron", body: "Inter" },
-      { heading: "Space Grotesk", body: "Inter" },
-    ],
+    fontPool: {
+      headings: ["Orbitron", "Space Grotesk", "Montserrat", "Fredoka"],
+      bodies: ["Space Grotesk", "Inter", "Open Sans", "Quicksand"],
+    },
   },
   kurumsal: {
     label: "Kurumsal",
     params: { scheme: "corporate", hue: [180, 260], sat: [50, 85], light: [26, 48] },
-    fonts: [
-      { heading: "Montserrat", body: "Open Sans" },
-      { heading: "Inter", body: "Open Sans" },
-      { heading: "Montserrat", body: "Inter" },
-    ],
+    fontPool: {
+      headings: ["Montserrat", "Inter", "Space Grotesk", "Open Sans"],
+      bodies: ["Open Sans", "Inter", "Lora", "Space Grotesk"],
+    },
   },
   eglenceli: {
     label: "Eğlenceli",
     params: { scheme: "rainbow", hue: [0, 360], sat: [65, 85], light: [55, 68] },
-    fonts: [
-      { heading: "Fredoka", body: "Quicksand" },
-      { heading: "Fredoka", body: "Open Sans" },
-      { heading: "Quicksand", body: "Quicksand" },
-    ],
+    fontPool: {
+      headings: ["Fredoka", "Quicksand", "Abril Fatface", "Montserrat"],
+      bodies: ["Quicksand", "Open Sans", "Inter", "Lora"],
+    },
   },
 };

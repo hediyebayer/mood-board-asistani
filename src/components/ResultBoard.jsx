@@ -13,7 +13,8 @@ export default function ResultBoard({
   fontOptions,
   fontIdx,
   onFontSelect,
-  onRegenerate,
+  onRegeneratePalettes,
+  onRegenerateFonts,
   onSave,
   onShare,
   onToast,
@@ -57,8 +58,11 @@ export default function ResultBoard({
           </p>
         </div>
         <div className="result__actions">
-          <button className="btn btn--ghost" onClick={onRegenerate}>
+          <button className="btn btn--ghost" onClick={onRegeneratePalettes}>
             Yeni Paletler
+          </button>
+          <button className="btn btn--ghost" onClick={onRegenerateFonts}>
+            Yeni Fontlar
           </button>
           <button className="btn btn--ghost" onClick={onShare}>
             Link

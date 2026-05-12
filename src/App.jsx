@@ -8,6 +8,7 @@ import Toast from "./components/Toast";
 import ThemeToggle from "./components/ThemeToggle";
 import { PROJECT_TYPES, STYLES } from "./data/presets";
 import { generatePalette } from "./utils/palette";
+import { buildFontOptions } from "./utils/fonts";
 import { readFromUrl, writeToUrl, buildShareUrl } from "./utils/share";
 import { analyzeIdea } from "./utils/suggest";
 import { useTheme } from "./hooks/useTheme";
@@ -15,8 +16,9 @@ import { useToast } from "./hooks/useToast";
 
 const STORAGE_KEY = "mood-boards";
 const PALETTE_COUNT = 6;
+const FONT_COUNT = 6;
 
-const buildOptions = (styleId, seed) => {
+const buildPaletteOptions = (styleId, seed) => {
   const fresh = Array.from({ length: seed ? PALETTE_COUNT - 1 : PALETTE_COUNT }, () =>
     generatePalette(STYLES[styleId].params)
   );
@@ -30,10 +32,13 @@ export default function App() {
   const [projectType, setProjectType] = useState(fromUrl?.projectType || "logo");
   const [styleId, setStyleId] = useState(initStyle);
   const [paletteOptions, setPaletteOptions] = useState(() =>
-    buildOptions(initStyle, fromUrl?.palette)
+    buildPaletteOptions(initStyle, fromUrl?.palette)
   );
   const [paletteIdx, setPaletteIdx] = useState(0);
-  const [fontIdx, setFontIdx] = useState(fromUrl?.fontIdx ?? 0);
+  const [fontOptions, setFontOptions] = useState(() =>
+    buildFontOptions(initStyle, FONT_COUNT, fromUrl?.fonts)
+  );
+  const [fontIdx, setFontIdx] = useState(0);
   const [saved, setSaved] = useState([]);
   const [theme, toggleTheme] = useTheme();
   const [toast, showToast] = useToast();
@@ -52,9 +57,9 @@ export default function App() {
       projectType,
       styleId,
       palette: paletteOptions[paletteIdx],
-      fontIdx,
+      fonts: fontOptions[fontIdx],
     });
-  }, [projectType, styleId, paletteOptions, paletteIdx, fontIdx]);
+  }, [projectType, styleId, paletteOptions, paletteIdx, fontOptions, fontIdx]);
 
   const board = useMemo(
     () => ({
@@ -63,28 +68,35 @@ export default function App() {
       styleId,
       styleLabel: STYLES[styleId].label,
       palette: paletteOptions[paletteIdx],
-      fonts: STYLES[styleId].fonts[fontIdx],
+      fonts: fontOptions[fontIdx],
     }),
-    [projectType, styleId, paletteOptions, paletteIdx, fontIdx]
+    [projectType, styleId, paletteOptions, paletteIdx, fontOptions, fontIdx]
   );
 
   const changeStyle = (id) => {
     setStyleId(id);
-    setPaletteOptions(buildOptions(id));
+    setPaletteOptions(buildPaletteOptions(id));
     setPaletteIdx(0);
+    setFontOptions(buildFontOptions(id, FONT_COUNT));
     setFontIdx(0);
   };
 
-  const regenerate = () => {
-    setPaletteOptions(buildOptions(styleId));
+  const regeneratePalettes = () => {
+    setPaletteOptions(buildPaletteOptions(styleId));
     setPaletteIdx(0);
     showToast("Yeni paletler üretildi");
+  };
+
+  const regenerateFonts = () => {
+    setFontOptions(buildFontOptions(styleId, FONT_COUNT));
+    setFontIdx(0);
+    showToast("Yeni fontlar üretildi");
   };
 
   const handleIdea = (text) => {
     const result = analyzeIdea(text);
     if (!result) {
-      regenerate();
+      regeneratePalettes();
       return null;
     }
     if (result.styleId) changeStyle(result.styleId);
@@ -110,12 +122,10 @@ export default function App() {
   const handleLoad = (b) => {
     setProjectType(b.projectType);
     setStyleId(b.styleId);
-    setPaletteOptions(buildOptions(b.styleId, b.palette));
+    setPaletteOptions(buildPaletteOptions(b.styleId, b.palette));
     setPaletteIdx(0);
-    const idx = STYLES[b.styleId].fonts.findIndex(
-      (f) => f.heading === b.fonts.heading && f.body === b.fonts.body
-    );
-    setFontIdx(idx >= 0 ? idx : 0);
+    setFontOptions(buildFontOptions(b.styleId, FONT_COUNT, b.fonts));
+    setFontIdx(0);
     showToast("Mood board yüklendi");
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
@@ -125,7 +135,7 @@ export default function App() {
       projectType,
       styleId,
       palette: paletteOptions[paletteIdx],
-      fontIdx,
+      fonts: fontOptions[fontIdx],
     });
     try {
       await navigator.clipboard.writeText(url);
@@ -154,10 +164,11 @@ export default function App() {
           paletteOptions={paletteOptions}
           paletteIdx={paletteIdx}
           onPaletteSelect={setPaletteIdx}
-          fontOptions={STYLES[styleId].fonts}
+          fontOptions={fontOptions}
           fontIdx={fontIdx}
           onFontSelect={setFontIdx}
-          onRegenerate={regenerate}
+          onRegeneratePalettes={regeneratePalettes}
+          onRegenerateFonts={regenerateFonts}
           onSave={handleSave}
           onShare={handleShare}
           onToast={showToast}
