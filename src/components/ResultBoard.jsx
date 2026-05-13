@@ -58,12 +58,6 @@ export default function ResultBoard({
           </p>
         </div>
         <div className="result__actions">
-          <button className="btn btn--ghost" onClick={onRegeneratePalettes}>
-            Yeni Paletler
-          </button>
-          <button className="btn btn--ghost" onClick={onRegenerateFonts}>
-            Yeni Fontlar
-          </button>
           <button className="btn btn--ghost" onClick={onShare}>
             Link
           </button>
@@ -79,7 +73,12 @@ export default function ResultBoard({
         </div>
       </div>
 
-      <h3 className="section-title">Seçili Renk Paleti · HEX kopyalamak için tıkla</h3>
+      <div className="section-header">
+        <h3 className="section-title">Seçili Renk Paleti · HEX kopyalamak için tıkla</h3>
+        <button className="btn btn--ghost btn--sm" onClick={onRegeneratePalettes}>
+          Yeni Paletler
+        </button>
+      </div>
       <ColorPalette palette={board.palette} onCopy={onToast} />
 
       <h3 className="section-title">Diğer Palet Seçenekleri · Beğen ve tıkla</h3>
@@ -89,7 +88,12 @@ export default function ResultBoard({
         onSelect={onPaletteSelect}
       />
 
-      <h3 className="section-title">Seçili Font Kombinasyonu</h3>
+      <div className="section-header">
+        <h3 className="section-title">Seçili Font Kombinasyonu</h3>
+        <button className="btn btn--ghost btn--sm" onClick={onRegenerateFonts}>
+          Yeni Fontlar
+        </button>
+      </div>
       <FontSuggestion fonts={board.fonts} />
 
       <h3 className="section-title">Diğer Font Kombinasyonları</h3>
