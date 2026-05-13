@@ -18,9 +18,12 @@ const STORAGE_KEY = "mood-boards";
 const PALETTE_COUNT = 6;
 const FONT_COUNT = 6;
 
-const buildPaletteOptions = (styleId, seed) => {
+const buildPaletteOptions = (styleId, seed, paramsOverride) => {
+  const params = paramsOverride
+    ? { ...STYLES[styleId].params, ...paramsOverride }
+    : STYLES[styleId].params;
   const fresh = Array.from({ length: seed ? PALETTE_COUNT - 1 : PALETTE_COUNT }, () =>
-    generatePalette(STYLES[styleId].params)
+    generatePalette(params)
   );
   return seed ? [seed, ...fresh] : fresh;
 };
@@ -99,8 +102,20 @@ export default function App() {
       regeneratePalettes();
       return null;
     }
-    if (result.styleId) changeStyle(result.styleId);
     if (result.projectType) setProjectType(result.projectType);
+    const nextStyle = result.styleId || styleId;
+    if (result.styleId && result.styleId !== styleId) {
+      setStyleId(result.styleId);
+      setFontOptions(buildFontOptions(result.styleId, FONT_COUNT));
+      setFontIdx(0);
+    }
+    if (result.colorParams) {
+      setPaletteOptions(buildPaletteOptions(nextStyle, null, result.colorParams));
+      setPaletteIdx(0);
+    } else if (result.styleId && result.styleId !== styleId) {
+      setPaletteOptions(buildPaletteOptions(result.styleId));
+      setPaletteIdx(0);
+    }
     return result;
   };
 

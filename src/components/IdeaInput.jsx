@@ -19,7 +19,7 @@ export default function IdeaInput({ onSubmit }) {
       setHint({
         type: "warn",
         message:
-          "Açıklamadan stil çıkaramadım. 'minimal', 'lüks', 'retro', 'neon', 'kurumsal', 'eğlenceli' gibi kelimeler dene. Yine de yeni paletler ürettim.",
+          "Açıklamadan stil veya renk çıkaramadım. Renk adı (kırmızı, lacivert, kan rengi, pastel pembe...) ya da stil (minimal, lüks, retro, neon, kurumsal, eğlenceli) ekleyebilirsin. Yine de yeni paletler ürettim.",
       });
     }
   };
@@ -29,7 +29,7 @@ export default function IdeaInput({ onSubmit }) {
       <h2 className="panel__title">Ne tasarlamak istiyorsun?</h2>
       <textarea
         className="idea__input"
-        placeholder="Örn: Doğal kozmetik markası için minimal bir logo · Çocuklar için renkli kitap kapağı · Lüks bir kuyumcu için marka kimliği"
+        placeholder="Örn: Kan rengi kırmızı bir kuyumcu logosu · Lacivert kurumsal afiş · Pastel pembe sosyal medya postu · Koyu yeşil doğal kozmetik kimliği"
         value={text}
         onChange={(e) => setText(e.target.value)}
         rows={3}
