@@ -60,9 +60,9 @@ const COLORS = [
   { id: "yeşil",      label: "yeşil",          keywords: ["yeşil", "green"],                                params: { hue: [110, 145], sat: [50, 80], light: [38, 55] } },
   { id: "mavi",       label: "mavi",           keywords: ["mavi", "blue"],                                  params: { hue: [200, 230], sat: [55, 85], light: [42, 58] } },
   { id: "mor",        label: "mor",            keywords: ["mor", "purple", "violet", "menekşe"],            params: { hue: [265, 295], sat: [50, 80], light: [42, 58] } },
-  { id: "siyah",      label: "siyah",          keywords: ["siyah", "black"],                                params: { hue: [0, 360],   sat: [0, 6],   light: [4, 14] } },
-  { id: "beyaz",      label: "beyaz",          keywords: ["beyaz", "white"],                                params: { hue: [0, 360],   sat: [0, 6],   light: [92, 98] } },
-  { id: "gri",        label: "gri",            keywords: ["gri", "gray", "grey"],                           params: { hue: [0, 360],   sat: [0, 8],   light: [45, 65] } },
+  { id: "siyah",      label: "siyah",          keywords: ["siyah", "black"],                                params: { hue: [0, 360],   sat: [0, 6],   light: [4, 14] },  achromatic: true },
+  { id: "beyaz",      label: "beyaz",          keywords: ["beyaz", "white"],                                params: { hue: [0, 360],   sat: [0, 6],   light: [92, 98] }, achromatic: true },
+  { id: "gri",        label: "gri",            keywords: ["gri", "gray", "grey"],                           params: { hue: [0, 360],   sat: [0, 8],   light: [45, 65] }, achromatic: true },
 ];
 
 const clampRange = (range, min, max) => [
@@ -157,8 +157,18 @@ export function analyzeIdea(text) {
   let colorParams = null;
   let colorLabel = null;
   if (colorMatch) {
-    const { params: modified, modifiers } = applyModifiers(text, colorMatch.color.params);
-    colorParams = modified;
+    const base = colorMatch.color.params;
+    const { params: modified, modifiers } = applyModifiers(text, base);
+    // Always lock the hue to the requested color. Only override sat/light when
+    // an explicit modifier ("pastel", "koyu"...) is used OR the color is
+    // achromatic (siyah/beyaz/gri) — otherwise let the selected style decide
+    // saturation and lightness so style + color combine intuitively
+    // (e.g. pastel chip + "kırmızı" → pastel red).
+    colorParams = { hue: base.hue };
+    if (colorMatch.color.achromatic || modifiers.length > 0) {
+      colorParams.sat = modified.sat;
+      colorParams.light = modified.light;
+    }
     colorLabel = modifiers.length
       ? `${modifiers.join(" ")} ${colorMatch.color.label}`
       : colorMatch.color.label;

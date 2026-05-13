@@ -42,6 +42,7 @@ export default function App() {
     buildFontOptions(initStyle, FONT_COUNT, fromUrl?.fonts)
   );
   const [fontIdx, setFontIdx] = useState(0);
+  const [colorHint, setColorHint] = useState(null);
   const [saved, setSaved] = useState([]);
   const [theme, toggleTheme] = useTheme();
   const [toast, showToast] = useToast();
@@ -78,14 +79,14 @@ export default function App() {
 
   const changeStyle = (id) => {
     setStyleId(id);
-    setPaletteOptions(buildPaletteOptions(id));
+    setPaletteOptions(buildPaletteOptions(id, null, colorHint));
     setPaletteIdx(0);
     setFontOptions(buildFontOptions(id, FONT_COUNT));
     setFontIdx(0);
   };
 
   const regeneratePalettes = () => {
-    setPaletteOptions(buildPaletteOptions(styleId));
+    setPaletteOptions(buildPaletteOptions(styleId, null, colorHint));
     setPaletteIdx(0);
     showToast("Yeni paletler üretildi");
   };
@@ -99,7 +100,10 @@ export default function App() {
   const handleIdea = (text) => {
     const result = analyzeIdea(text);
     if (!result) {
-      regeneratePalettes();
+      setColorHint(null);
+      setPaletteOptions(buildPaletteOptions(styleId, null, null));
+      setPaletteIdx(0);
+      showToast("Yeni paletler üretildi");
       return null;
     }
     if (result.projectType) setProjectType(result.projectType);
@@ -109,13 +113,10 @@ export default function App() {
       setFontOptions(buildFontOptions(result.styleId, FONT_COUNT));
       setFontIdx(0);
     }
-    if (result.colorParams) {
-      setPaletteOptions(buildPaletteOptions(nextStyle, null, result.colorParams));
-      setPaletteIdx(0);
-    } else if (result.styleId && result.styleId !== styleId) {
-      setPaletteOptions(buildPaletteOptions(result.styleId));
-      setPaletteIdx(0);
-    }
+    const nextColorHint = result.colorParams || null;
+    setColorHint(nextColorHint);
+    setPaletteOptions(buildPaletteOptions(nextStyle, null, nextColorHint));
+    setPaletteIdx(0);
     return result;
   };
 
@@ -137,6 +138,7 @@ export default function App() {
   const handleLoad = (b) => {
     setProjectType(b.projectType);
     setStyleId(b.styleId);
+    setColorHint(null);
     setPaletteOptions(buildPaletteOptions(b.styleId, b.palette));
     setPaletteIdx(0);
     setFontOptions(buildFontOptions(b.styleId, FONT_COUNT, b.fonts));
