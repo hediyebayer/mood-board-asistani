@@ -1,3 +1,5 @@
+import { STYLES, PROJECT_LABELS } from "../data/presets";
+
 const STYLE_KEYWORDS = {
   retro: ["retro", "vintage", "eski", "70'", "80'", "90'", "nostalji", "nostaljik", "klasik"],
   luxury: ["lüks", "luxury", "premium", "altın", "gold", "şık", "elite", "mücevher", "kuyumcu", "vip", "butik"],
@@ -11,9 +13,20 @@ const STYLE_KEYWORDS = {
     "kreş", "anaokulu", "festival",
   ],
   minimal: [
-    "minimal", "sade", "doğal", "organik", "modern", "temiz", "scandinavian",
-    "kozmetik", "wellness", "yoga", "spa", "vegan",
+    "minimal", "sade", "modern", "temiz", "scandinavian", "iskandinav",
+    "wellness", "yoga", "spa", "vegan",
   ],
+  pastel: ["pastel", "yumuşak", "pudra", "bebek", "lavanta", "soft renk", "şirin"],
+  doga: [
+    "doğa", "doğal", "organik", "eko", "sürdürülebilir", "botanik", "bitki",
+    "kozmetik", "çay", "kahve", "orman", "toprak",
+  ],
+  bohem: ["bohem", "boho", "etnik", "el yapımı", "handmade", "rustik", "terakota", "macrame"],
+  futurist: [
+    "fütürist", "futurist", "fütüristik", "futuristic", "ai", "yapay zeka",
+    "uzay", "space", "robot", "sci-fi", "bilim kurgu",
+  ],
+  monokrom: ["monokrom", "monochrome", "siyah beyaz", "black & white", "minimalist"],
 };
 
 const PROJECT_KEYWORDS = {
@@ -21,16 +34,16 @@ const PROJECT_KEYWORDS = {
   social: ["instagram", "sosyal medya", "post", "story", "twitter", "facebook", "tiktok", "reels"],
   poster: ["afiş", "poster", "billboard", "banner", "duyuru", "ilan"],
   brand: ["marka kimliği", "kurumsal kimlik", "brand", "kimlik", "rebrand"],
+  web: ["web sitesi", "website", "web tasarım", "landing", "landing page", "anasayfa", "site"],
+  packaging: ["ambalaj", "paket", "kutu", "etiket", "packaging", "şişe", "label"],
+  card: ["kartvizit", "business card", "iş kartı"],
+  presentation: ["sunum", "slayt", "slide", "pitch", "deck", "presentation"],
+  book: ["kitap kapağı", "kitap kapagi", "kapak", "book cover", "kitap"],
 };
 
-const STYLE_LABELS = {
-  minimal: "Minimal",
-  retro: "Retro",
-  luxury: "Luxury",
-  neon: "Neon",
-  kurumsal: "Kurumsal",
-  eglenceli: "Eğlenceli",
-};
+const STYLE_LABELS = Object.fromEntries(
+  Object.entries(STYLES).map(([id, s]) => [id, s.label])
+);
 
 const COLORS = [
   { id: "kan",        label: "kan kırmızısı", keywords: ["kan rengi", "kan kırmızı", "blood red"],          params: { hue: [-6, 6],    sat: [78, 95], light: [24, 36] } },
@@ -159,11 +172,7 @@ export function analyzeIdea(text) {
     parts.push(`${STYLE_LABELS[style.key]} stili`);
   }
   if (project) {
-    const label =
-      project.key === "logo" ? "Logo" :
-      project.key === "social" ? "Sosyal Medya Postu" :
-      project.key === "poster" ? "Afiş" : "Marka Kimliği";
-    parts.push(`Proje türü: ${label}`);
+    parts.push(`Proje türü: ${PROJECT_LABELS[project.key] || project.key}`);
   }
 
   return {

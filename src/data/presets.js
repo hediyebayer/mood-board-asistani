@@ -3,7 +3,16 @@ export const PROJECT_TYPES = [
   { id: "social", label: "Sosyal Medya Postu" },
   { id: "poster", label: "Afiş" },
   { id: "brand", label: "Marka Kimliği" },
+  { id: "web", label: "Web Sitesi" },
+  { id: "packaging", label: "Ambalaj" },
+  { id: "card", label: "Kartvizit" },
+  { id: "presentation", label: "Sunum" },
+  { id: "book", label: "Kitap Kapağı" },
 ];
+
+export const PROJECT_LABELS = Object.fromEntries(
+  PROJECT_TYPES.map((p) => [p.id, p.label])
+);
 
 export const STYLES = {
   minimal: {
@@ -52,6 +61,46 @@ export const STYLES = {
     fontPool: {
       headings: ["Fredoka", "Quicksand", "Abril Fatface", "Montserrat"],
       bodies: ["Quicksand", "Open Sans", "Inter", "Lora"],
+    },
+  },
+  pastel: {
+    label: "Pastel",
+    params: { scheme: "analogous", hue: [0, 360], sat: [28, 50], light: [72, 86] },
+    fontPool: {
+      headings: ["Quicksand", "Fredoka", "Cormorant Garamond", "Lora"],
+      bodies: ["Quicksand", "Open Sans", "Lora", "Inter"],
+    },
+  },
+  doga: {
+    label: "Doğa",
+    params: { scheme: "analogous", hue: [28, 130], sat: [22, 52], light: [32, 52] },
+    fontPool: {
+      headings: ["Cormorant Garamond", "Lora", "Playfair Display", "Montserrat"],
+      bodies: ["Lora", "Open Sans", "Inter", "Cormorant Garamond"],
+    },
+  },
+  bohem: {
+    label: "Bohem",
+    params: { scheme: "analogous", hue: [8, 48], sat: [42, 70], light: [38, 58] },
+    fontPool: {
+      headings: ["Abril Fatface", "Cormorant Garamond", "Playfair Display", "Lora"],
+      bodies: ["Lora", "Cormorant Garamond", "Open Sans", "Inter"],
+    },
+  },
+  futurist: {
+    label: "Fütürist",
+    params: { scheme: "triadic", hue: [180, 290], sat: [55, 85], light: [40, 58] },
+    fontPool: {
+      headings: ["Orbitron", "Space Grotesk", "Inter", "Montserrat"],
+      bodies: ["Space Grotesk", "Inter", "Open Sans", "Quicksand"],
+    },
+  },
+  monokrom: {
+    label: "Monokrom",
+    params: { scheme: "mono", hue: [0, 360], sat: [0, 6], light: [10, 30] },
+    fontPool: {
+      headings: ["Montserrat", "Playfair Display", "Inter", "Space Grotesk"],
+      bodies: ["Inter", "Open Sans", "Lora", "Space Grotesk"],
     },
   },
 };

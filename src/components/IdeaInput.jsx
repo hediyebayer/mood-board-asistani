@@ -19,7 +19,7 @@ export default function IdeaInput({ onSubmit }) {
       setHint({
         type: "warn",
         message:
-          "Açıklamadan stil veya renk çıkaramadım. Renk adı (kırmızı, lacivert, kan rengi, pastel pembe...) ya da stil (minimal, lüks, retro, neon, kurumsal, eğlenceli) ekleyebilirsin. Yine de yeni paletler ürettim.",
+          "Açıklamadan stil veya renk çıkaramadım. Renk adı (kırmızı, lacivert, kan rengi, pastel pembe...) ya da stil (minimal, lüks, retro, neon, kurumsal, eğlenceli, pastel, doğa, bohem, fütürist, monokrom) ekleyebilirsin. Yine de yeni paletler ürettim.",
       });
     }
   };
