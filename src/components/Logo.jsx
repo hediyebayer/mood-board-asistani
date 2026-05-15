@@ -1,0 +1,33 @@
+export default function Logo({ size = 36 }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 64 64"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className="app__logo"
+    >
+      <defs>
+        <linearGradient id="mba-blob" x1="10%" y1="0%" x2="90%" y2="100%">
+          <stop offset="0%" stopColor="#a855f7" />
+          <stop offset="55%" stopColor="#ec4899" />
+          <stop offset="100%" stopColor="#f97316" />
+        </linearGradient>
+      </defs>
+      <path
+        d="M34 6 C48 4 60 16 58 32 C56 48 44 60 28 58 C12 56 4 42 8 26 C12 12 22 8 34 6 Z"
+        fill="url(#mba-blob)"
+      />
+      <path
+        d="M50 8 L51.6 13.4 L57 15 L51.6 16.6 L50 22 L48.4 16.6 L43 15 L48.4 13.4 Z"
+        fill="#fff"
+      />
+      <path
+        d="M18 44 L18.8 46.4 L21.2 47.2 L18.8 48 L18 50.4 L17.2 48 L14.8 47.2 L17.2 46.4 Z"
+        fill="#fff"
+        opacity="0.85"
+      />
+    </svg>
+  );
+}

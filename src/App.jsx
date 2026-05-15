@@ -6,6 +6,7 @@ import ResultBoard from "./components/ResultBoard";
 import SavedBoards from "./components/SavedBoards";
 import Toast from "./components/Toast";
 import ThemeToggle from "./components/ThemeToggle";
+import Logo from "./components/Logo";
 import { PROJECT_TYPES, STYLES } from "./data/presets";
 import { generatePalette } from "./utils/palette";
 import { buildFontOptions } from "./utils/fonts";
@@ -165,9 +166,12 @@ export default function App() {
   return (
     <div className="app">
       <header className="app__header">
-        <div>
-          <h1>Mood Board Asistanı</h1>
-          <p>Açıklamanı yaz, stili seç, paletini ve fontunu kendin belirle.</p>
+        <div className="app__brand">
+          <Logo size={44} />
+          <div>
+            <h1>Mood Board Asistanı</h1>
+            <p>Açıklamanı yaz, stili seç, paletini ve fontunu kendin belirle.</p>
+          </div>
         </div>
         <ThemeToggle theme={theme} onToggle={toggleTheme} />
       </header>
